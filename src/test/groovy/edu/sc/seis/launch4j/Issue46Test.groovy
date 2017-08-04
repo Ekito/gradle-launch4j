@@ -18,6 +18,7 @@
 package edu.sc.seis.launch4j
 
 import edu.sc.seis.launch4j.util.FunctionalSpecification
+import edu.sc.seis.launch4j.util.RunExe
 import spock.lang.Unroll
 
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
@@ -67,7 +68,8 @@ class Issue46Test extends FunctionalSpecification {
         outfile.exists()
 
         when:
-        def process = outfile.path.execute()
+        def process = RunExe.run(outfile.path)
+        def outLog = new File("/tmp/out.log")
         then:
         process.waitFor() == 0
         process.in.text.trim() == message

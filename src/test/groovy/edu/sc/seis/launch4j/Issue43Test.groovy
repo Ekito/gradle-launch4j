@@ -18,6 +18,7 @@
 package edu.sc.seis.launch4j
 
 import edu.sc.seis.launch4j.util.FunctionalSpecification
+import edu.sc.seis.launch4j.util.RunExe
 import org.gradle.internal.impldep.com.google.common.io.Files
 
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
@@ -70,7 +71,8 @@ class Issue43Test extends FunctionalSpecification {
         outfile.exists()
 
         when:
-        def process = outfile.path.execute()
+        def process = RunExe.run(outfile.path)
+        def outLog = new File(projectDir, 'build/launch4j/out.log')
         then:
         process.waitFor() == 0
         process.in.text.trim() == 'Hello World!'
@@ -117,7 +119,7 @@ class Issue43Test extends FunctionalSpecification {
         outfile.exists()
 
         when:
-        def process = outfile.path.execute()
+        def process = RunExe.run(outfile.path)
         then:
         process.waitFor() == 0
         process.in.text.trim() == 'Hello World!'
@@ -161,7 +163,7 @@ class Issue43Test extends FunctionalSpecification {
         outfile.exists()
 
         when:
-        def process = outfile.path.execute()
+        def process = RunExe.run("${outfile.path}")
         then:
         process.waitFor() == 0
         process.in.text.trim() == 'Hello World!'
